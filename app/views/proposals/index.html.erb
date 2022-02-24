@@ -1,0 +1,9 @@
+<h1>Your Proposals</h1>
+
+<ul>
+<% @proposals.each do |proposal| %>
+<li><%= link_to proposal.name, proposal_path(proposal) %></li>
+<% end %>
+</ul>
+
+<%= link_to "Create Proposal", new_proposal_path %>

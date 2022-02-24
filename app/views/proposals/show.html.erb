@@ -1,0 +1,13 @@
+<h1><%= @proposal.name %></h1>
+<h2>Customer: <%= @proposal.customer.name %></h2>
+
+<ul>
+<li><%= @proposal.name %></li>
+<li><%= @proposal.date %></li>
+<li><%= @proposal.due_date %></li>
+<li><%= @proposal.object_items %></li>
+<li><%= @proposal.customer_id %></li>
+</ul>
+
+
+<%= link_to "Home", proposals_path %>

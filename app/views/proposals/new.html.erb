@@ -1,0 +1,16 @@
+<h3>Create a new Proposal</h3>
+
+    <%= simple_form_for @proposal do |f| %>
+      <%= f.input :name, placeholder: 'Proposal Name goes here' %>
+      <%= f.input :due_date, placeholder: 'Due date goes here' %>
+      <%= f.input :object_items, placeholder: 'Product Name' %>
+      <%= f.input :object_items, placeholder: 'Units' %>
+      <%= f.input :object_items, placeholder: 'Price' %>
+      <%= f.association :customer,  prompt: 'Select a Customer', input_html: { class: 'select2' } %>
+
+
+      <%= f.button :submit, class: 'btn btn-flat' %>
+    <% end %>
+  </div>
+
+   <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>

@@ -1,0 +1,15 @@
+<h3>Create a new Customer</h3>
+
+    <%= simple_form_for @customer do |f| %>
+      <%= f.input :name, placeholder: 'Customer Name goes here' %>
+      <%= f.input :code, placeholder: 'Customer Code goes here' %>
+      <%= f.input :email, placeholder: 'Customer Email goes here' %>
+      <%= f.input :mobile, placeholder: 'Customer Mobile goes here' %>
+      <%= f.input :phone, placeholder: 'Customer Phone goes here' %>
+
+
+      <%= f.button :submit, class: 'btn btn-flat' %>
+    <% end %>
+  </div>
+
+   <%= link_to 'Back', customers_path, class: 'btn btn-back' %>
