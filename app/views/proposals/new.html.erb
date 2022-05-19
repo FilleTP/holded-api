@@ -3,14 +3,35 @@
     <%= simple_form_for @proposal do |f| %>
       <%= f.input :name, placeholder: 'Proposal Name goes here' %>
       <%= f.input :due_date, placeholder: 'Due date goes here' %>
-      <%= f.input :object_items, placeholder: 'Product Name' %>
-      <%= f.input :object_items, placeholder: 'Units' %>
-      <%= f.input :object_items, placeholder: 'Price' %>
       <%= f.association :customer,  prompt: 'Select a Customer', input_html: { class: 'select2' } %>
-
-
-      <%= f.button :submit, class: 'btn btn-flat' %>
+      <%= f.simple_fields_for :pvgisdata do |data| %>
+        <%= data.input :lat_1, required:true %>
+        <%= data.input :lon_1, required:true %>
+        <%= data.input :angle_1, required:true %>
+        <%= data.input :loss_1, required:true %>
+        <%= data.input :slope_1, required:true %>
+        <%= data.input :azimuth_1, required:true %>
+        <%= data.input :peakpower_1, required:true %>
+      <% end %>
+       <%= f.simple_fields_for :pvgisdata do |data| %>
+        <%= data.input :lat_2 %>
+        <%= data.input :lon_2 %>
+        <%= data.input :angle_2 %>
+        <%= data.input :loss_2 %>
+        <%= data.input :slope_2 %>
+        <%= data.input :azimuth_2 %>
+        <%= data.input :peakpower_2 %>
+      <% end %>
+       <%= f.simple_fields_for :pvgisdata do |data| %>
+        <%= data.input :lat_3 %>
+        <%= data.input :lon_3 %>
+        <%= data.input :angle_3 %>
+        <%= data.input :loss_3 %>
+        <%= data.input :slope_3 %>
+        <%= data.input :azimuth_3 %>
+        <%= data.input :peakpower_3 %>
+      <% end %>
+     <%= f.button :submit, class: 'btn btn-flat' %>
     <% end %>
   </div>
-
    <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>

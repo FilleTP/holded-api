@@ -1,4 +1,7 @@
 class Proposal < ApplicationRecord
   belongs_to :customer
+  has_many :object_items
+  has_many :pvgisdatas, dependent: :destroy
+  accepts_nested_attributes_for :object_items, reject_if: :all_blank, allow_destroy: true
   validates :date, presence: true
 end

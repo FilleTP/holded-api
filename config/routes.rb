@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-
+  root to: 'pages#home'
   resources :customers
 
-  resources :proposals
+  resources :proposals do
+    resources :object_items
+  end
 
 
 

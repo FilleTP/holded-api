@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_19_054354) do
+ActiveRecord::Schema.define(version: 2022_05_19_100809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,25 @@ ActiveRecord::Schema.define(version: 2022_02_19_054354) do
     t.string "contact_persons"
   end
 
+  create_table "object_items", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.string "desc"
+    t.integer "units"
+    t.float "subtotal"
+    t.integer "discount"
+    t.integer "tax"
+    t.integer "retention"
+    t.bigint "propsal_id"
+    t.index ["propsal_id"], name: "index_object_items_on_propsal_id"
+  end
+
   create_table "proposals", force: :cascade do |t|
     t.bigint "customer_id", null: false
     t.string "name"
     t.string "date"
     t.string "due_date"
-    t.string "object_items"
     t.string "shipping_address"
     t.string "postal_code"
     t.string "shipping_city"
@@ -80,5 +93,40 @@ ActiveRecord::Schema.define(version: 2022_02_19_054354) do
     t.index ["customer_id"], name: "index_proposals_on_customer_id"
   end
 
+  create_table "pvgis", force: :cascade do |t|
+    t.string "name"
+    t.text "month1"
+    t.text "month2"
+    t.text "month3"
+    t.text "month4"
+    t.text "month5"
+    t.text "month6"
+    t.text "month7"
+    t.text "month8"
+    t.text "month9"
+    t.text "month10"
+    t.text "month11"
+    t.text "month12"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "proposal_id"
+    t.index ["proposal_id"], name: "index_pvgis_on_proposal_id"
+  end
+
+  create_table "pvgisdata", force: :cascade do |t|
+    t.bigint "proposal_id", null: false
+    t.float "lat"
+    t.float "lon"
+    t.float "peakpower"
+    t.float "angle"
+    t.float "loss"
+    t.float "slope"
+    t.string "azimuth"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["proposal_id"], name: "index_pvgisdata_on_proposal_id"
+  end
+
   add_foreign_key "proposals", "customers"
+  add_foreign_key "pvgisdata", "proposals"
 end

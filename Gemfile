@@ -50,3 +50,13 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "autoprefixer-rails", "10.2.5"
 gem "font-awesome-sass", "~> 5.6.1"
 gem "simple_form"
+
+# Faraday API Calls
+gem 'faraday'
+
+# Charts
+gem "chartkick"
+
+# PDF Generation
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

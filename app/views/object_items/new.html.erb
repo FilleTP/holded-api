@@ -1,0 +1,15 @@
+ <%= f.simple_form_for @object_item do |f| %>
+        <%= f.input :name, placeholder: 'Name' %>
+        <%= f.input :desc, placeholder: 'Description' %>
+        <%= f.input :units, placeholder: 'Sku' %>
+        <%= f.input :service_id, placeholder: 'Service ID' %>
+        <%= f.input :accounting_account_id, placeholder: 'Accounting ID' %>
+        <%= f.input :subtotal, placeholder: 'Subtotal' %>
+        <%= f.input :discount, placeholder: 'Discount' %>
+        <%= f.input :tax, placeholder: 'Tax' %>
+        <%= f.input :retention, placeholder: 'Retention' %>
+        <%= f.input :equivalance_surcharge, placeholder: 'Equivalance Surcharge' %>
+        <%= f.input :tags, placeholder: 'Tag' %>
+         <%= f.button :submit, class: 'btn btn-flat' %>
+
+      <% end %>

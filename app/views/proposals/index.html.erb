@@ -2,7 +2,7 @@
 
 <ul>
 <% @proposals.each do |proposal| %>
-<li><%= link_to proposal.name, proposal_path(proposal) %></li>
+<li><%= link_to proposal.name, proposal_path(proposal) %> <%= link_to 'PDF', proposal_path(proposal, format: :pdf) %></li>
 <% end %>
 </ul>
 
