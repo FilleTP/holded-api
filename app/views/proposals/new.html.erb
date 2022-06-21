@@ -1,37 +1,21 @@
 <h3>Create a new Proposal</h3>
 
     <%= simple_form_for @proposal do |f| %>
+    <div class="form-group">
       <%= f.input :name, placeholder: 'Proposal Name goes here' %>
       <%= f.input :due_date, placeholder: 'Due date goes here' %>
-      <%= f.association :customer,  prompt: 'Select a Customer', input_html: { class: 'select2' } %>
+    </div>
+    <div class="form-group">
+      <%= f.association :customer%>
+    </div>
       <%= f.simple_fields_for :pvgisdata do |data| %>
-        <%= data.input :lat_1, required:true %>
-        <%= data.input :lon_1, required:true %>
-        <%= data.input :angle_1, required:true %>
-        <%= data.input :loss_1, required:true %>
-        <%= data.input :slope_1, required:true %>
-        <%= data.input :azimuth_1, required:true %>
-        <%= data.input :peakpower_1, required:true %>
+      <div class="form-group" id="pvgi-fields">
+
+        <%= link_to_add_association 'add', f, :pvgisdatas %>
+      </div>
       <% end %>
-       <%= f.simple_fields_for :pvgisdata do |data| %>
-        <%= data.input :lat_2 %>
-        <%= data.input :lon_2 %>
-        <%= data.input :angle_2 %>
-        <%= data.input :loss_2 %>
-        <%= data.input :slope_2 %>
-        <%= data.input :azimuth_2 %>
-        <%= data.input :peakpower_2 %>
-      <% end %>
-       <%= f.simple_fields_for :pvgisdata do |data| %>
-        <%= data.input :lat_3 %>
-        <%= data.input :lon_3 %>
-        <%= data.input :angle_3 %>
-        <%= data.input :loss_3 %>
-        <%= data.input :slope_3 %>
-        <%= data.input :azimuth_3 %>
-        <%= data.input :peakpower_3 %>
-      <% end %>
+      <div class="form-group">
      <%= f.button :submit, class: 'btn btn-flat' %>
+     </div>
     <% end %>
-  </div>
    <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>

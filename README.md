@@ -1,5 +1,13 @@
 # README
 
+* Coocooon added - need to find way to render fields for string without breaking new record for nil   Class
+* Find Chart that works with wicked PDF
+
+
+
+
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

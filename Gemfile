@@ -60,3 +60,5 @@ gem "chartkick"
 # PDF Generation
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'gchart', '~> 1.0'
+gem "cocoon"
