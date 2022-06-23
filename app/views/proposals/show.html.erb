@@ -8,48 +8,49 @@
 <li><%= @proposal.due_date %></li>
 <%# <li><%= @proposal.object_item.name %>
 <li><%= @proposal.customer_id %></li>
-<li>Month 1<% @pvgi.month1.each do |key, value| %></li>
+<% @proposal.pvgis.each do |pvgi| %>
+<li>Month 1<% pvgi.month1.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 2<% @pvgi.month2.each do |key, value| %></li>
+<li>Month 2<% pvgi.month2.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 3<% @pvgi.month3.each do |key, value| %></li>
+<li>Month 3<% pvgi.month3.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 4<% @pvgi.month4.each do |key, value| %></li>
+<li>Month 4<% pvgi.month4.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 5<% @pvgi.month5.each do |key, value| %></li>
+<li>Month 5<% pvgi.month5.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 6<% @pvgi.month6.each do |key, value| %></li>
+<li>Month 6<% pvgi.month6.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 7<% @pvgi.month7.each do |key, value| %></li>
+<li>Month 7<% pvgi.month7.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 8<% @pvgi.month8.each do |key, value| %></li>
+<li>Month 8<% pvgi.month8.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 9<% @pvgi.month9.each do |key, value| %></li>
+<li>Month 9<% pvgi.month9.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 10<% @pvgi.month10.each do |key, value| %></li>
+<li>Month 10<% pvgi.month10.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 11<% @pvgi.month11.each do |key, value| %></li>
+<li>Month 11<% pvgi.month11.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
-<li>Month 12<% @pvgi.month12.each do |key, value| %></li>
+<li>Month 12<% pvgi.month12.each do |key, value| %></li>
     <p>- <%= key %>: <%= value %></p>
   <% end %>
+<% end %>
 
-<%= column_chart({"Jan" => 2, "Feb" => 2, "Mar" => 2, "Apr" => 2, "May" => 2, "Jun" => 2, "Jul" => 2, "Aug" => 2, "Sep" => 2, "Oct" => 2, "Nov" => 2, "Dec" => 2}) %>
-<%= Gchart.line(:title => 'Sexy Charts!') %>
+<%# <%= column_chart({"Jan" => 2, "Feb" => 2, "Mar" => 2, "Apr" => 2, "May" => 2, "Jun" => 2, "Jul" => 2, "Aug" => 2, "Sep" => 2, "Oct" => 2, "Nov" => 2, "Dec" => 2}) %>
+<%# <%= Gchart.line(:title => 'Sexy Charts!') %>
 
 
 </ul>
-<%= link_to 'Object Item', new_proposal_object_item_path(@proposal), class: 'btn btn-back' %>
-
+<%= link_to 'PDF', proposal_path(@proposal, format: :pdf) %>
 <%= link_to "Home", proposals_path %>

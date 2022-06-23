@@ -14,3 +14,84 @@
  *= require_self
  */
 @import "bootstrap/scss/bootstrap";
+/* @import "navbar"; */
+
+.container {
+  margin: 0 auto;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.last-proposals {
+  list-style: none;
+}
+
+.last-proposals-div {
+  border: solid 1px rgb(34, 10, 122);
+  width: fit-content;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.last-proposals-div ul {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px;
+}
+
+.proposal-form input{
+  border-radius: 4px;
+  border: solid 1px rgb(34, 10, 122);
+  height: 20px;
+  margin-right: 40px;
+}
+
+.proposal-info {
+  display: flex;
+  margin-bottom: 50px;
+
+}
+
+.proposal-info input {
+  margin-right: 40px;
+
+}
+
+.pvgis-info {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.pvgis-info {
+  position: relative;
+}
+
+.pvgis-info a {
+  position: absolute;
+  right: 40px;
+  top: 20px;
+  text-decoration: none;
+}
+
+
+.proposal-create-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.btn-flat {
+  padding: 8px 20px;
+  background-color: rgb(176, 176, 224);
+  border: solid 1px gray;
+  border-radius: 4px;
+}
+
+.btn-back {
+  padding: 8px 20px;
+  text-decoration: none;
+  background-color: rgb(176, 176, 224);
+  border: solid 1px gray;
+  border-radius: 4px;
+}

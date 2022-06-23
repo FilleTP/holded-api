@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 
   def home
+    @proposals = Proposal.last(3)
   end
 
   private

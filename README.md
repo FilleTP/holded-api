@@ -2,6 +2,7 @@
 
 * Coocooon added - need to find way to render fields for string without breaking new record for nil   Class
 * Find Chart that works with wicked PDF
+* validate coordinates so they are not over water
 
 
 

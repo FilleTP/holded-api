@@ -1,21 +1,32 @@
 <h3>Create a new Proposal</h3>
 
-    <%= simple_form_for @proposal do |f| %>
-    <div class="form-group">
-      <%= f.input :name, placeholder: 'Proposal Name goes here' %>
-      <%= f.input :due_date, placeholder: 'Due date goes here' %>
+<div class="container">
+  <div>
+    <%= simple_form_for @proposal, html: { class: "proposal-form" } do |f| %>
+    <div class="proposal-info">
+      <label>
+        Name
+        <%= f.input :name, label: false%>
+      </label>
+      <label>
+        Due Date
+        <%= f.input :due_date, label: false %>
+      </label>
+      <label>
+        Choose Customer
+        <%= f.association :customer, label: false%>
+      </label>
     </div>
-    <div class="form-group">
-      <%= f.association :customer%>
-    </div>
-      <%= f.simple_fields_for :pvgisdata do |data| %>
-      <div class="form-group" id="pvgi-fields">
-
-        <%= link_to_add_association 'add', f, :pvgisdatas %>
-      </div>
+    <div class="pvgis-info">
+      <%= f.simple_fields_for @proposal.pvgisdatas.new do |pvgidata| %>
       <% end %>
-      <div class="form-group">
-     <%= f.button :submit, class: 'btn btn-flat' %>
-     </div>
+      <%= link_to_add_association '+', f, :pvgisdatas, html: { class: "add-pvgis"} %>
+    </div>
+  </div>
+  <div class="proposal-create-button">
+    <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>
+    <%= f.button :submit, class: 'btn btn-flat' %>
     <% end %>
-   <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>
+  </div>
+
+</div>

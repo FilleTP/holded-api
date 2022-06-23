@@ -1,0 +1,19 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px rgb(7, 7, 102);
+  align-items: center;
+}
+
+.navbar img {
+height: 80px;
+width: 70px;
+}
+
+.links {
+  display: inline-block;
+}
+.links a{
+  text-decoration: none;
+  margin-right: 20px;
+}

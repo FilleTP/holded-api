@@ -15,14 +15,11 @@ class ProposalsController < ApplicationController
 
   def new
     @proposal = Proposal.new
-    @proposal.pvgisdatas.new
-    @pvgisdata = Pvgisdata.new
-
   end
 
   def show
     @proposal = Proposal.find(params[:id])
-    @pvgi = Pvgi.find_by(proposal_id: @proposal.id)
+    @pvgis = @proposal.pvgis
     respond_to do |format|
       format.html
       format.pdf do
@@ -37,13 +34,20 @@ class ProposalsController < ApplicationController
     @proposal.date = Time.now.to_i
     @proposal.contact_name = @proposal.customer.name
 
-    if @proposal.save!
+
+      @proposal.save!
+      # @pvgisdata = Pvgisdata.new(lat: params['proposal']['pvgisdata']['lat'], lon: params['proposal']['pvgisdata']['lon'], angle: params['proposal']['pvgisdata']['angle'], loss: params['proposal']['pvgisdata']['loss'], slope: params['proposal']['pvgisdata']['slope'], azimuth: params['proposal']['pvgisdata']['azimuth'], peakpower: params['proposal']['pvgisdata']['peakpower'])
+      # @pvgisdata.proposal_id = @proposal.id
+      # @pvgisdata.save!
+
       string_creation
-      raise
+
+    if @proposal.pvgisdatas.count == @proposal.pvgis.count
       # send_propsals(@proposal)
       redirect_to proposal_path(@proposal)
     else
-      render :new
+      redirect_to new_proposal_path
+      flash[:alert] = "Sorry"
     end
   end
 
@@ -55,16 +59,25 @@ class ProposalsController < ApplicationController
     params.require(:proposal).permit(:name, :date, :due_date, :customer_id, pvgisdatas_attributes: [:id, :lat, :lon, :angle, :loss, :slope, :azimuth, :peakpower, :_destroy])
   end
 
+  def pvgisdata_params
+    params.require(:proposal).permit(params["proposal"]["pvgisdata"])
+  end
+
   def string_creation
     @proposal.pvgisdatas.each do |pvgi|
 
       response_string = PvgisApi.new(pvgi, @proposal).call_pvgis
       obj = JSON.parse(response_string.body)
 
-      # if obj['status'] != 400
-         new_data = Pvgi.create(
+      names = %w[string1 string2 string3 string4]
+
+      if obj['status'] == 400
+        # redirect_to new_proposal_path
+
+      else
+        Pvgi.create!(
           proposal_id: @proposal.id,
-          name: 'string1',
+          name: names.first,
           month1: { E_d: obj["outputs"]["monthly"]["fixed"][0]["E_d"], E_m: obj["outputs"]["monthly"]["fixed"][0]["E_m"], Hi_d: obj["outputs"]["monthly"]["fixed"][0]["H(i)_d"], Hi_m: obj["outputs"]["monthly"]["fixed"][0]["H(i)_m"], SD_m: obj["outputs"]["monthly"]["fixed"][0]["SD_m"] },
           month2: { E_d: obj["outputs"]["monthly"]["fixed"][0]["E_d"], E_m: obj["outputs"]["monthly"]["fixed"][0]["E_m"], Hi_d: obj["outputs"]["monthly"]["fixed"][0]["H(i)_d"], Hi_m: obj["outputs"]["monthly"]["fixed"][0]["H(i)_m"], SD_m: obj["outputs"]["monthly"]["fixed"][0]["SD_m"] },
           month3: { E_d: obj["outputs"]["monthly"]["fixed"][0]["E_d"], E_m: obj["outputs"]["monthly"]["fixed"][0]["E_m"], Hi_d: obj["outputs"]["monthly"]["fixed"][0]["H(i)_d"], Hi_m: obj["outputs"]["monthly"]["fixed"][0]["H(i)_m"], SD_m: obj["outputs"]["monthly"]["fixed"][0]["SD_m"] },
@@ -78,25 +91,9 @@ class ProposalsController < ApplicationController
           month11: { E_d: obj["outputs"]["monthly"]["fixed"][0]["E_d"], E_m: obj["outputs"]["monthly"]["fixed"][0]["E_m"], Hi_d: obj["outputs"]["monthly"]["fixed"][0]["H(i)_d"], Hi_m: obj["outputs"]["monthly"]["fixed"][0]["H(i)_m"], SD_m: obj["outputs"]["monthly"]["fixed"][0]["SD_m"] },
           month12: { E_d: obj["outputs"]["monthly"]["fixed"][0]["E_d"], E_m: obj["outputs"]["monthly"]["fixed"][0]["E_m"], Hi_d: obj["outputs"]["monthly"]["fixed"][0]["H(i)_d"], Hi_m: obj["outputs"]["monthly"]["fixed"][0]["H(i)_m"], SD_m: obj["outputs"]["monthly"]["fixed"][0]["SD_m"] }
         )
-        if !new_data.valid?
-          redirect_to new_proposal_path
-          flash[:alert] = "Please make sure all is filled in correctly"
-        end
-
+        names.delete_at(0)
+      end
     end
-
-
-    # # response_1 = response_string_1.body.delete!('\\')
-    # if params["proposal"]["pvgisdata"]["lat_2"] != ""
-    # @string2 = Pvgisdata.new(lat: params["proposal"]["pvgisdata"]["lat_2"], lon: params["proposal"]["pvgisdata"]["lon_2"], peakpower: params["proposal"]["pvgisdata"]["peakpower_2"], angle: params["proposal"]["pvgisdata"]["angle_2"], loss: params["proposal"]["pvgisdata"]["loss_2"], slope: params["proposal"]["pvgisdata"]["slope_2"], azimuth: params["proposal"]["pvgisdata"]["azimuth_2"])
-    # response_string_2 = PvgisApi.new(@string2, @proposal).call_pvgis
-    # obj_2 = JSON.parse(response_string_2.body)
-    # end
-    # if params["proposal"]["pvgisdata"]["lat_3"] != ""
-    # @string3 = Pvgisdata.new(lat: params["proposal"]["pvgisdata"]["lat_3"], lon: params["proposal"]["pvgisdata"]["lon_3"], peakpower: params["proposal"]["pvgisdata"]["peakpower_3"], angle: params["proposal"]["pvgisdata"]["angle_3"], loss: params["proposal"]["pvgisdata"]["loss_3"], slope: params["proposal"]["pvgisdata"]["slope_3"], azimuth: params["proposal"]["pvgisdata"]["azimuth_3"])
-    # response_string_3 = PvgisApi.new(@string3, @proposal).call_pvgis
-    # obj_3 = JSON.parse(response_string_3.body)
-    # end
 
   end
 

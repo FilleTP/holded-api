@@ -1,13 +1,12 @@
-<h1>hello</h1>
-<%= simple_form_for :solar_data, url: root_path do |f| %>
-  <%= f.input :lat, required:true %>
-  <%= f.input :lon, required:true %>
-  <%= f.input :angle, required:true %>
-  <%= f.input :batterysize, required:true %>
-  <%= f.input :cutoff, required:true %>
-  <%= f.input :consumptionday, required:true %>
-  <%= f.input :loss, required:true %>
-  <%= f.input :slope, required:true %>
-  <%= f.input :azimuth, required:true %>
-  <%= f.submit 'Go!', class: 'btn' %>
-<% end %>
+<div class="container">
+  <% @proposals.each do |proposal|%>
+    <div class="last-proposals-div">
+      <ul class="last-proposals">
+        <li><%= proposal.customer.name %></li>
+        <li><%= link_to proposal.name, proposal_path(proposal) %></li>
+        <li><%= proposal.date %></li>
+        <li><%= proposal.due_date %></li>
+      </ul>
+    </div>
+  <% end %>
+</div>
