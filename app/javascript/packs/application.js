@@ -12,6 +12,10 @@ require("@nathanvda/cocoon")
 
 import "chartkick/chart.js"
 
+//= require libs/chartkick
+//= require libs/loader
+
+
 
 
 

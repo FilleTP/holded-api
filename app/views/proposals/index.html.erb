@@ -1,5 +1,14 @@
 <div class="container">
-<h1 class="table-h1">Proposals</h1>
+  <h1 class="table-h1">Proposals</h1>
+
+  <%= form_tag proposals_path, method: :get, class:"search-bar" do %>
+    <%= text_field_tag :query,
+      params[:query],
+      class: "maxi-form-control-home",
+      placeholder: "Search Proposal"
+    %>
+    <%= submit_tag "Search", class: "btn-flat" %>
+  <% end %>
 			<table class="table">
 				<thead align="left">
 					<tr>

@@ -5,11 +5,16 @@
 
 
     <%= wicked_pdf_stylesheet_link_tag "pdf" -%>
-<%= wicked_pdf_javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
-    <%= wicked_pdf_javascript_include_tag "chartkick" %>
+    <%= wicked_pdf_javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
+
+   <%= wicked_pdf_stylesheet_pack_tag %>
+  <%= wicked_pdf_javascript_pack_tag %>
+<%= wicked_pdf_javascript_include_tag 'pdf' %> -->
+    <%= javascript_include_tag wicked_pdf_asset_base64('pdf') %>
 
 
-
+  <%= javascript_include_tag "https://www.google.com/jsapi" %>
+  <%= wicked_pdf_javascript_include_tag "chartkick" %>
 
   </head>
   <body onload='number_pages'>
