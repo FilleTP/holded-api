@@ -2,7 +2,12 @@
 class ProposalsController < ApplicationController
 
   def index
-    @proposals = Proposal.all
+    if params[:query].present?
+      @proposals = Proposal.global_search(params[:query])
+    else
+      @proposals = Proposal.all
+    end
+
     #parse the JSON objects
     # @proposals.each do |proposal|
     #   objects = JSON.parse(proposal.object.items)
@@ -23,7 +28,8 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "file_name", template: "/proposals/show.html.erb", layout: "pdf", :javascript_delay => 2000 # Excluding ".pdf" extension.
+        render pdf: "file_name", template: "/proposals/show.html.erb", layout: "pdf" # Wait until window.status is equal to this string before rendering page
+
       end
     end
 

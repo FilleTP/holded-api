@@ -4,6 +4,16 @@
     <% image_tag "click_energy_logo.svg"%>
     <% end %>
   </div>
+  <div>
+    <%= form_tag proposals_path, method: :get, class:"search-bar" do %>
+      <%= text_field_tag :query,
+        params[:query],
+        class: "maxi-form-control-home",
+        placeholder: "Search Proposal"
+      %>
+      <%= submit_tag "Search", class: "btn-flat" %>
+    <% end %>
+  </div>
   <div class="links">
     <%= link_to 'Proposals', proposals_path %>
     <%= link_to 'Create Proposal', new_proposal_path %>
