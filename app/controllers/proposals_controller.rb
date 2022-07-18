@@ -2,17 +2,17 @@
 class ProposalsController < ApplicationController
 
   def index
-    if params[:query].present?
-      @proposals = Proposal.global_search(params[:query])
-    else
-      @proposals = Proposal.all
-    end
-
+    @proposals = Proposal.all
+    @proposals = Proposal.global_search(params[:query]) if params[:query].present?
+    @proposals = Proposal.by_recently_created if params[:order_by_date].present?
+    @proposals = Proposal.by_name if params[:order_by_name].present?
+    @proposals = Proposal.by_customer if params[:order_by_customer].present?
     #parse the JSON objects
     # @proposals.each do |proposal|
     #   objects = JSON.parse(proposal.object.items)
     #   proposal.object = objects
     # end
+
 
   end
 

@@ -7,6 +7,10 @@ class Proposal < ApplicationRecord
   accepts_nested_attributes_for :object_items, reject_if: :all_blank, allow_destroy: true
   # validates :date, presence: true
   validates_associated :pvgisdatas
+  scope :by_recently_created, -> { order(created_at: :desc) }
+  scope :by_oldest_created, -> { order(created_at: :asc) }
+  scope :by_name, -> { order(:name) }
+  scope :by_customer, -> { joins(:customer).order(name: :asc) }
 
   include PgSearch::Model
     pg_search_scope :global_search,
