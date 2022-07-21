@@ -62,5 +62,4 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem 'gchart', '~> 1.0'
 gem "cocoon"
-gem 'Dhalang'
 gem 'pg_search', '~> 2.3.0'
