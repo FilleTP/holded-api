@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    Dhalang (0.6.5)
     actioncable (6.0.5.1)
       actionpack (= 6.0.5.1)
       nio4r (~> 2.0)
@@ -202,7 +201,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  Dhalang
   autoprefixer-rails (= 10.2.5)
   bootsnap (>= 1.4.2)
   byebug
