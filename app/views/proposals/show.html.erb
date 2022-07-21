@@ -1,50 +1,14 @@
 <h1><%= @proposal.name %></h1>
 <h2>Customer: <%= @proposal.customer.name %></h2>
 
+<div>
+  <%= wicked_pdf_image_tag("click_energy_logo") %>
+</div>
 <ul>
 <li><%= @proposal.name %></li>
 <li><%= @proposal.date %></li>
 <li><%= @proposal.due_date %></li>
-<%# <li><%= @proposal.object_item.name %>
 <li><%= @proposal.customer_id %></li>
-<% @proposal.pvgis.each do |pvgi| %>
-<li>Month 1<% pvgi.month1.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 2<% pvgi.month2.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 3<% pvgi.month3.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 4<% pvgi.month4.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 5<% pvgi.month5.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 6<% pvgi.month6.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 7<% pvgi.month7.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 8<% pvgi.month8.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 9<% pvgi.month9.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 10<% pvgi.month10.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 11<% pvgi.month11.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<li>Month 12<% pvgi.month12.each do |key, value| %></li>
-    <p>- <%= key %>: <%= value %></p>
-  <% end %>
-<% end %>
 </ul>
 <%= link_to 'PDF', proposal_path(@proposal, format: :pdf) %>
 <%= link_to "Home", proposals_path %>

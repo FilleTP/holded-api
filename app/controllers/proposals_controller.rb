@@ -5,18 +5,15 @@ class ProposalsController < ApplicationController
     @proposals = Proposal.all
     @proposals = Proposal.global_search(params[:query]) if params[:query].present?
     @proposals = Proposal.by_recently_created if params[:order_by_date].present?
-    @proposals = Proposal.by_name if params[:order_by_name].present?
-    @proposals = Proposal.by_customer if params[:order_by_customer].present?
-    #parse the JSON objects
+    @proposals = Proposal.by_name if params[:order_by_name].present? && @proposals.all.pluck(:name).uniq.length > 1
+    @proposals = Proposal.by_customer if params[:order_by_customer].present? && @proposals.joins(:customer).pluck("customers.name").uniq.length > 1
+
+    # parse the JSON objects
     # @proposals.each do |proposal|
-    #   objects = JSON.parse(proposal.object.items)
-    #   proposal.object = objects
+    # objects = JSON.parse(proposal.object.items)
+    # proposal.object = objects
     # end
-
-
   end
-
-
 
   def new
     @proposal = Proposal.new
@@ -28,36 +25,29 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "file_name", template: "/proposals/show.html.erb", layout: "pdf" # Wait until window.status is equal to this string before rendering page
-
+        render pdf: 'file_name', template: '/proposals/show.html.erb', layout: 'pdf' # Wait until window.status is equal to this string before rendering page
       end
     end
-
   end
 
   def create
     @proposal = Proposal.new proposal_params
     @proposal.date = Time.now.to_i
     @proposal.contact_name = @proposal.customer.name
-
-
-      @proposal.save!
-      # @pvgisdata = Pvgisdata.new(lat: params['proposal']['pvgisdata']['lat'], lon: params['proposal']['pvgisdata']['lon'], angle: params['proposal']['pvgisdata']['angle'], loss: params['proposal']['pvgisdata']['loss'], slope: params['proposal']['pvgisdata']['slope'], azimuth: params['proposal']['pvgisdata']['azimuth'], peakpower: params['proposal']['pvgisdata']['peakpower'])
-      # @pvgisdata.proposal_id = @proposal.id
-      # @pvgisdata.save!
-
-      string_creation
+    @proposal.save!
+    # @pvgisdata = Pvgisdata.new(lat: params['proposal']['pvgisdata']['lat'], lon: params['proposal']['pvgisdata']['lon'], angle: params['proposal']['pvgisdata']['angle'], loss: params['proposal']['pvgisdata']['loss'], slope: params['proposal']['pvgisdata']['slope'], azimuth: params['proposal']['pvgisdata']['azimuth'], peakpower: params['proposal']['pvgisdata']['peakpower'])
+    # @pvgisdata.proposal_id = @proposal.id
+    # @pvgisdata.save!
+    string_creation
 
     if @proposal.pvgisdatas.count == @proposal.pvgis.count
       # send_propsals(@proposal)
       redirect_to proposal_path(@proposal)
     else
       redirect_to new_proposal_path
-      flash[:alert] = "Sorry"
+      flash[:alert] = 'Sorry'
     end
   end
-
-
 
   private
 
