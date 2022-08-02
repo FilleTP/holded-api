@@ -20,7 +20,6 @@ import "chartkick/chart.js"
 
 
 
-
 //   <%= javascript_tag do %>
 //     const moreFields = '<%= select_tag(:foo, raw("<%= render 'pvgisdata_fields', :f => data %> <br>")) %>'
 // $('#put_it_here').append(foo)

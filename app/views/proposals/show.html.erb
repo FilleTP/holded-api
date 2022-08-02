@@ -2,7 +2,7 @@
 <h2>Customer: <%= @proposal.customer.name %></h2>
 
 <div>
-  <%= wicked_pdf_image_tag("click_energy_logo") %>
+
 </div>
 <ul>
 <li><%= @proposal.name %></li>
@@ -10,5 +10,75 @@
 <li><%= @proposal.due_date %></li>
 <li><%= @proposal.customer_id %></li>
 </ul>
+
+<%= line_chart({"2021-01-01" => 2, "2021-01-02" => 3, "2021-01-03" => 1, "2021-01-04" => 3, "2021-01-05" => 5, "2021-01-06" => 20, "2021-01-07" => 3}) %>
+	<canvas id="canvas" height="450" width="600"></canvas>
+
+        <img id="url" style="height: 600px; width 1200px;"/>
 <%= link_to 'PDF', proposal_path(@proposal, format: :pdf) %>
 <%= link_to "Home", proposals_path %>
+
+<div style="display:none;">
+ <span id="jan-data"><%=23%></span>
+ <span id="feb-data"><%=11%></span>
+ <span id="mar-data"><%=12%></span>
+ <span id="apr-data"><%=2%></span>
+ <span id="may-data"><%=4%></span>
+ <span id="jun-data"><%=6%></span>
+ <span id="jul-data"><%=7%></span>
+ <span id="aug-data"><%=3%></span>
+ <span id="sep-data"><%=8%></span>
+ <span id="oct-data"><%=9%></span>
+ <span id="nov-data"><%=2%></span>
+ <span id="dec-data"><%=2%></span>
+</div>
+<script>
+
+const janData = document.getElementById("jan-data").innerText
+const febData = document.getElementById("feb-data").innerText
+const marData = document.getElementById("mar-data").innerText
+const aprData = document.getElementById("apr-data").innerText
+const mayData = document.getElementById("may-data").innerText
+const junData = document.getElementById("jun-data").innerText
+const julData = document.getElementById("jul-data").innerText
+const augData = document.getElementById("aug-data").innerText
+const sepData = document.getElementById("sep-data").innerText
+const octData = document.getElementById("oct-data").innerText
+const novData = document.getElementById("nov-data").innerText
+const decData = document.getElementById("dec-data").innerText
+
+var lineChartData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"],
+  datasets: [
+    {
+      fillColor: "rgba(220,220,220,0.5)",
+      strokeColor: "rgba(220,220,220,1)",
+      pointColor: "rgba(220,220,220,1)",
+      pointStrokeColor: "#fff",
+      data: [janData, febData, marData, aprData, mayData, junData, julData, augData, sepData, octData, novData, decData],
+      bezierCurve: false
+    }
+  ]
+
+}
+
+function done() {
+  var url = myLine.toBase64Image();
+  document.getElementById("url").src = url;
+}
+var options = {
+  bezierCurve: false,
+  animation: {
+    onComplete: done
+  }
+};
+
+var chart = document.querySelector("canvas").getContext("2d");
+
+var myLine = new Chart(document.getElementById("canvas").getContext("2d"), {
+  data: lineChartData,
+  type: "bar",
+  options: options
+});
+
+</script>
