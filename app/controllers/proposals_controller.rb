@@ -1,3 +1,4 @@
+require 'mini_magick'
 
 class ProposalsController < ApplicationController
 
@@ -30,6 +31,38 @@ class ProposalsController < ApplicationController
     end
   end
 
+  def update
+    image_64 = params[:proposal][:url]
+    string = image_64.split(",")[1]
+    @proposal = Proposal.find(params[:id])
+    # blob = Base64.decode64(string)
+    # image = MiniMagick::Image.read(blob)
+    # image.write 'image.jpeg'
+
+    unless @proposal.photo.attached?
+      # @proposal.photo.attach(io: StringIO.new('image.jpeg'), filename: image, content_type: 'image/png')
+
+      # @proposal.photo.attach(data: image_64, size: 10000)
+
+
+      @proposal.update!(
+        photo: {
+                 io: StringIO.new(Base64.decode64(string)),
+                 content_type: 'image/jpeg',
+                 filename: 'image.jpeg'
+               }
+      )
+      redirect_to proposal_path(@proposal)
+    end
+    # @proposal.update!(
+    #         photo: {
+    #           io: StringIO.new(Base64.decode64(params[:base_64_image].split(',')[1])),
+    #           content_type: 'image/jpeg',
+    #           filename: 'image.jpeg'
+    #         }
+    #       )
+  end
+
   def create
     @proposal = Proposal.new proposal_params
     @proposal.date = Time.now.to_i
@@ -52,7 +85,7 @@ class ProposalsController < ApplicationController
   private
 
   def proposal_params
-    params.require(:proposal).permit(:name, :date, :due_date, :customer_id, pvgisdatas_attributes: [:id, :lat, :lon, :angle, :loss, :slope, :azimuth, :peakpower, :_destroy])
+    params.require(:proposal).permit(:name, :date, :due_date, :photo, :url, :customer_id, pvgisdatas_attributes: [:id, :lat, :lon, :angle, :loss, :slope, :azimuth, :peakpower, :_destroy])
   end
 
   def pvgisdata_params

@@ -12,6 +12,9 @@
         Due Date
         <%= f.input :due_date, label: false %>
       </label>
+      <label class="button-photo">
+        <p>Add Photo</p>
+        <%= f.input :photo, as: :file%>
       <label>
         Choose Customer
         <%= f.association :customer, label: false, id: 'association'%>

@@ -11,12 +11,37 @@
 <li><%= @proposal.customer_id %></li>
 </ul>
 
-<%= line_chart({"2021-01-01" => 2, "2021-01-02" => 3, "2021-01-03" => 1, "2021-01-04" => 3, "2021-01-05" => 5, "2021-01-06" => 20, "2021-01-07" => 3}) %>
+<% if @proposal.photo.attached? %>
+<%= cl_image_tag @proposal.photo.key, height: 1000, width: 1200%>
+<% end %>
+
+
+<%# <%= cl_image_tag("tv0fwjc2376d9k0f07eqjsg46g24",
+      width: 800, height: 800, crop: :fill) %>
 	<canvas id="canvas" height="450" width="600"></canvas>
 
-        <img id="url" style="height: 600px; width 1200px;"/>
+
+
+<%# <img id="url" style="height: 600px; width 1200px;" data-controller="base64" data-controller-target="url"/> %>
+
+<%# <p id="url" data-controller="base64" data-controller-target="url"></p> %>
+
+
+<%= simple_form_for @proposal  do |f| %>
+  <%= f.input :url, as: :text %>
+  <%= f.button :submit, class: 'btn btn-flat' %>
+<% end %>
+
+
+
 <%= link_to 'PDF', proposal_path(@proposal, format: :pdf) %>
 <%= link_to "Home", proposals_path %>
+
+
+
+
+
+
 
 <div style="display:none;">
  <span id="jan-data"><%=23%></span>
@@ -51,10 +76,10 @@ var lineChartData = {
   labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"],
   datasets: [
     {
-      fillColor: "rgba(220,220,220,0.5)",
+      fillColor: "#3447c5",
       strokeColor: "rgba(220,220,220,1)",
       pointColor: "rgba(220,220,220,1)",
-      pointStrokeColor: "#fff",
+      pointStrokeColor: "#3447c5",
       data: [janData, febData, marData, aprData, mayData, junData, julData, augData, sepData, octData, novData, decData],
       bezierCurve: false
     }
@@ -64,7 +89,8 @@ var lineChartData = {
 
 function done() {
   var url = myLine.toBase64Image();
-  document.getElementById("url").src = url;
+  document.getElementById("proposal_url").value = url;
+  // window.open("localhost:3000//controller/update?url="+url+"_blank")
 }
 var options = {
   bezierCurve: false,
@@ -77,8 +103,11 @@ var chart = document.querySelector("canvas").getContext("2d");
 
 var myLine = new Chart(document.getElementById("canvas").getContext("2d"), {
   data: lineChartData,
-  type: "bar",
+  type: "line",
   options: options
 });
+
+// window.open("localhost:3000//proposals_controller/update?url="+url+"_blank")
+// document.forms['edit_proposal_1'].submit();
 
 </script>
