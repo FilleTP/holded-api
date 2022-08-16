@@ -1,7 +1,7 @@
 <h3>Create a new Proposal</h3>
 
 <div class="container">
-  <div>
+  <div class="hello">
     <%= simple_form_for @proposal, html: { class: "proposal-form" } do |f| %>
     <div class="proposal-info">
       <label>
@@ -12,13 +12,33 @@
         Due Date
         <%= f.input :due_date, label: false %>
       </label>
-      <label class="button-photo">
-        <p>Add Photo</p>
-        <%= f.input :photo, as: :file%>
       <label>
         Choose Customer
         <%= f.association :customer, label: false, id: 'association'%>
       </label>
+    </div>
+    <div class="proposal-address">
+      <label>
+        Address
+        <%= f.input :shipping_address, label: false %>
+      </label>
+      <label>
+        Postal Code
+        <%= f.input :postal_code, label: false %>
+      </label>
+      <label>
+        City
+        <%= f.input :shipping_city, label: false %>
+      </label>
+      <label>
+        Province
+        <%= f.input :shipping_province, label: false %>
+      </label>
+      <label>
+        Country
+        <%= f.input :shipping_country, :as => :text, label: false %>
+      </label>
+      <%= f.file_field :image, multiple: true %>
     </div>
     <div class="pvgis-info">
       <%= f.simple_fields_for @proposal.pvgisdatas.new do |pvgidata| %>

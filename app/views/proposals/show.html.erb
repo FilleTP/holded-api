@@ -11,30 +11,22 @@
 <li><%= @proposal.customer_id %></li>
 </ul>
 
-<% if @proposal.photo.attached? %>
-<%= cl_image_tag @proposal.photo.key, height: 1000, width: 1200%>
+<%# <% if @proposal.photos.attached? %>
+<%# <%= cl_image_tag @proposal.photos.key, height: 1000, width: 1200%>
+<%# <% end %>
+
+<% if @proposal.photos.attached? %>
+<% @proposal.photos.each do |photo|%>
+<%= cl_image_tag photo.key, height: 400, width: 600%>
+<% end %>
 <% end %>
 
-
-<%# <%= cl_image_tag("tv0fwjc2376d9k0f07eqjsg46g24",
-      width: 800, height: 800, crop: :fill) %>
-	<canvas id="canvas" height="450" width="600"></canvas>
-
-
-
-<%# <img id="url" style="height: 600px; width 1200px;" data-controller="base64" data-controller-target="url"/> %>
-
-<%# <p id="url" data-controller="base64" data-controller-target="url"></p> %>
-
-
+	<canvas id="canvas" style="height:200px;width:300px;"></canvas>
 <%= simple_form_for @proposal  do |f| %>
-  <%= f.input :url, as: :text %>
-  <%= f.button :submit, class: 'btn btn-flat' %>
+  <%= f.hidden_field :url, as: :text %>
+  <%= f.submit "PDF", class: 'btn btn-flat' %>
 <% end %>
 
-
-
-<%= link_to 'PDF', proposal_path(@proposal, format: :pdf) %>
 <%= link_to "Home", proposals_path %>
 
 
@@ -57,7 +49,26 @@
  <span id="nov-data"><%=2%></span>
  <span id="dec-data"><%=2%></span>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
+// CHART Method - taking data points from pvgis
+// Draw chart
+// Save chart as base64
+// Add base64 image code to hidden field in proposal update form
+// Send to Proposal Controller with submit, redirect to PDF
 
 const janData = document.getElementById("jan-data").innerText
 const febData = document.getElementById("feb-data").innerText
@@ -76,10 +87,8 @@ var lineChartData = {
   labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"],
   datasets: [
     {
-      fillColor: "#3447c5",
-      strokeColor: "rgba(220,220,220,1)",
-      pointColor: "rgba(220,220,220,1)",
-      pointStrokeColor: "#3447c5",
+      backgroundColor: "rgba(86, 101, 196,0.8)",
+      dataPointWidth: 20,
       data: [janData, febData, marData, aprData, mayData, junData, julData, augData, sepData, octData, novData, decData],
       bezierCurve: false
     }
@@ -90,24 +99,38 @@ var lineChartData = {
 function done() {
   var url = myLine.toBase64Image();
   document.getElementById("proposal_url").value = url;
-  // window.open("localhost:3000//controller/update?url="+url+"_blank")
 }
 var options = {
+  maintainAspectRatio: false,
+    responsive:true,
+    // scales: {
+    //     yAxes: [{
+    //         ticks: {
+    //             beginAtZero: true
+    //         }
+    //     }]
+    // },
   bezierCurve: false,
   animation: {
     onComplete: done
-  }
+  },
+  scales: {
+            xAxes: [{
+                barThickness: 24,  // number (pixels) or 'flex'
+                maxBarThickness: 24 // number (pixels)
+            }]
+        }
 };
 
 var chart = document.querySelector("canvas").getContext("2d");
 
 var myLine = new Chart(document.getElementById("canvas").getContext("2d"), {
   data: lineChartData,
-  type: "line",
+  type: "bar",
   options: options
 });
 
-// window.open("localhost:3000//proposals_controller/update?url="+url+"_blank")
-// document.forms['edit_proposal_1'].submit();
+Chart.defaults.global.defaultFontSize = 20;
+chart.canvas.parentNode.style.height = '800px';
 
 </script>

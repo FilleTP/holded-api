@@ -26,41 +26,30 @@ class ProposalsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: 'file_name', template: '/proposals/show.html.erb', layout: 'pdf' # Wait until window.status is equal to this string before rendering page
+        render pdf: 'file_name', template: '/proposals/show.html.erb', layout: 'pdf'
       end
     end
+
   end
 
   def update
     image_64 = params[:proposal][:url]
     string = image_64.split(",")[1]
     @proposal = Proposal.find(params[:id])
-    # blob = Base64.decode64(string)
-    # image = MiniMagick::Image.read(blob)
-    # image.write 'image.jpeg'
-
-    unless @proposal.photo.attached?
-      # @proposal.photo.attach(io: StringIO.new('image.jpeg'), filename: image, content_type: 'image/png')
-
-      # @proposal.photo.attach(data: image_64, size: 10000)
-
-
-      @proposal.update!(
-        photo: {
-                 io: StringIO.new(Base64.decode64(string)),
-                 content_type: 'image/jpeg',
-                 filename: 'image.jpeg'
-               }
-      )
-      redirect_to proposal_path(@proposal)
+    @proposal.photos.each do |photo|
+      next if photo.filename == "location.jpeg"
+      photo.destroy
     end
-    # @proposal.update!(
-    #         photo: {
-    #           io: StringIO.new(Base64.decode64(params[:base_64_image].split(',')[1])),
-    #           content_type: 'image/jpeg',
-    #           filename: 'image.jpeg'
-    #         }
-    #       )
+
+    @proposal.photos.attach(
+      {
+              io: StringIO.new(Base64.decode64(string)),
+              content_type: 'image/jpeg',
+              filename: 'image.jpeg'
+             }
+    )
+
+    redirect_to "#{full_url_for}.pdf"
   end
 
   def create
@@ -68,9 +57,13 @@ class ProposalsController < ApplicationController
     @proposal.date = Time.now.to_i
     @proposal.contact_name = @proposal.customer.name
     @proposal.save!
-    # @pvgisdata = Pvgisdata.new(lat: params['proposal']['pvgisdata']['lat'], lon: params['proposal']['pvgisdata']['lon'], angle: params['proposal']['pvgisdata']['angle'], loss: params['proposal']['pvgisdata']['loss'], slope: params['proposal']['pvgisdata']['slope'], azimuth: params['proposal']['pvgisdata']['azimuth'], peakpower: params['proposal']['pvgisdata']['peakpower'])
-    # @pvgisdata.proposal_id = @proposal.id
-    # @pvgisdata.save!
+
+    if params[:proposal][:image].present?
+      params[:proposal][:image].each do |image|
+        @proposal.photos.attach(io: image, content_type: 'image/jpeg', filename: 'location.jpeg')
+      end
+    end
+
     string_creation
 
     if @proposal.pvgisdatas.count == @proposal.pvgis.count
@@ -85,7 +78,7 @@ class ProposalsController < ApplicationController
   private
 
   def proposal_params
-    params.require(:proposal).permit(:name, :date, :due_date, :photo, :url, :customer_id, pvgisdatas_attributes: [:id, :lat, :lon, :angle, :loss, :slope, :azimuth, :peakpower, :_destroy])
+    params.require(:proposal).permit(:name, :shipping_address, :postal_code, :shipping_city, :shipping_province, :shipping_country, :date, :due_date, :url, :customer_id,  photos: [], pvgisdatas_attributes: [:id, :lat, :lon, :angle, :loss, :slope, :azimuth, :peakpower, :_destroy])
   end
 
   def pvgisdata_params
