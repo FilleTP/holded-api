@@ -9,6 +9,11 @@ class CustomersController < ApplicationController
     #current_customers_holded???
     #@customers == current_customers_holded
     @customers = Customer.all
+    @customers = Customer.by_recently_created if params[:order_by_date].present?
+    @customers = Customer.by_name if params[:order_by_name].present? && @customers.all.pluck(:name).uniq.length > 1
+    if params[:order_by_proposal].present?
+      @customers = filter_proposal_amount(params[:order_by_proposal])
+    end
   end
 
   def show
@@ -54,6 +59,20 @@ private
 def customer_params
   params.require(:customer).permit(:name, :code, :email, :mobile, :phone, :customer_id)
 end
+
+  def filter_proposal_amount(arg)
+    counts = Customer.all.left_joins(:proposals).group("customers.id").count("proposals.id")
+    hash = {}
+    counts.each do |key, value|
+      hash[key] = [Customer.find(key), value]
+    end
+    if arg == "1"
+      @sorted = hash.sort_by { |key, value| value[1] }
+    else
+      @sorted = hash.sort_by { |key, value| value[1] }.reverse
+    end
+    @customers = @sorted.map { |x| x[1][0] }
+  end
 
   def get_customers
 

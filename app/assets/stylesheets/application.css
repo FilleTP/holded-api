@@ -23,8 +23,7 @@
 .container {
   margin: 0 auto;
   padding: 50px;
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
 }
 
 .last-proposals-container {
@@ -90,6 +89,10 @@
 
 }
 
+#proposal_image {
+  border: none;
+}
+
 .pvgis-info {
   display: flex;
   margin-bottom: 20px;
@@ -118,7 +121,7 @@
 .proposal-create-button {
   display: flex;
   justify-content: space-between;
-  margin-top: 100px;
+  padding-top: 100px;
 }
 
 .btn-flat {
@@ -128,6 +131,7 @@
   border: solid 1px gray;
   border-radius: 4px;
   text-decoration: none;
+  font-size: 16px;
 }
 
 .btn-back {
@@ -137,6 +141,15 @@
   background-color: rgb(76, 124, 202);
   border: solid 1px gray;
   border-radius: 4px;
+  font-size: 16px;
+}
+
+.btn-back:hover {
+  cursor: pointer;
+}
+
+.btn-flat:hover {
+  cursor: pointer;
 }
 
 .search-bar input {
@@ -152,4 +165,17 @@
 .search-bar .btn-flat:hover {
   padding: 7px;
   cursor: pointer;
+}
+
+.bottom-buttons {
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#search-proposal-container {
+  display: flex;
+  justify-content: space-between;
 }

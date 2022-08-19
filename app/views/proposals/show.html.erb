@@ -1,33 +1,55 @@
-<h1><%= @proposal.name %></h1>
-<h2>Customer: <%= @proposal.customer.name %></h2>
+<div class="container">
 
-<div>
+  <h1><%= @proposal.name %></h1>
+  <h2>Customer: <%= @proposal.customer.name %></h2>
+
+  <ul>
+    <li><%= @proposal.name %></li>
+    <li><%= @proposal.date %></li>
+    <li><%= @proposal.due_date %></li>
+    <li><%= @proposal.customer_id %></li>
+  </ul>
+
+  <%# <% if @proposal.photos.attached? %>
+  <%# <%= cl_image_tag @proposal.photos.key, height: 1000, width: 1200%>
+  <%# <% end %>
+
+  <% if @proposal.photos.attached? %>
+    <% @proposal.photos.each do |photo|%>
+    <div style="margin: 80px;">
+      <%= cl_image_tag photo.key, height: 400, width: 600%>
+    </div>
+    <% end %>
+  <% end %>
+
+  <canvas id="canvas" style="height:200px;width:300px;display:none;"></canvas>
+  <div class="bottom-buttons">
+    <%= link_to "Home", proposals_path, class: "btn btn-back" %>
+    <div>
+      <div id="update-form-div" style="display:none;">
+        <%= simple_form_for @proposal  do |f| %>
+          <%= f.hidden_field :url, as: :text %>
+          <%= f.submit "Go to PDF", class: 'btn btn-flat' %>
+        <% end %>
+      </div>
+      <a href="javascript:void(0)" id="loading-button" class="btn btn-flat">Loading...</a>
+    </div>
+  </div>
+
+  <span id="jan-data" style="display:none;position:absolute;left:-999em;"><%=23%></span>
+  <span id="feb-data" style="display:none;position:absolute;left:-999em;"><%=11%></span>
+  <span id="mar-data" style="display:none;position:absolute;left:-999em;"><%=12%></span>
+  <span id="apr-data" style="display:none;position:absolute;left:-999em;"><%=2%></span>
+  <span id="may-data" style="display:none;position:absolute;left:-999em;"><%=4%></span>
+  <span id="jun-data" style="display:none;position:absolute;left:-999em;"><%=6%></span>
+  <span id="jul-data" style="display:none;position:absolute;left:-999em;"><%=7%></span>
+  <span id="aug-data" style="display:none;position:absolute;left:-999em;"><%=3%></span>
+  <span id="sep-data" style="display:none;position:absolute;left:-999em;"><%=8%></span>
+  <span id="oct-data" style="display:none;position:absolute;left:-999em;"><%=9%></span>
+  <span id="nov-data" style="display:none;position:absolute;left:-999em;"><%=2%></span>
+  <span id="dec-data" style="display:none;position:absolute;left:-999em;"><%=2%></span>
 
 </div>
-<ul>
-<li><%= @proposal.name %></li>
-<li><%= @proposal.date %></li>
-<li><%= @proposal.due_date %></li>
-<li><%= @proposal.customer_id %></li>
-</ul>
-
-<%# <% if @proposal.photos.attached? %>
-<%# <%= cl_image_tag @proposal.photos.key, height: 1000, width: 1200%>
-<%# <% end %>
-
-<% if @proposal.photos.attached? %>
-<% @proposal.photos.each do |photo|%>
-<%= cl_image_tag photo.key, height: 400, width: 600%>
-<% end %>
-<% end %>
-
-	<canvas id="canvas" style="height:200px;width:300px;"></canvas>
-<%= simple_form_for @proposal  do |f| %>
-  <%= f.hidden_field :url, as: :text %>
-  <%= f.submit "PDF", class: 'btn btn-flat' %>
-<% end %>
-
-<%= link_to "Home", proposals_path %>
 
 
 
@@ -35,20 +57,11 @@
 
 
 
-<div style="display:none;">
- <span id="jan-data"><%=23%></span>
- <span id="feb-data"><%=11%></span>
- <span id="mar-data"><%=12%></span>
- <span id="apr-data"><%=2%></span>
- <span id="may-data"><%=4%></span>
- <span id="jun-data"><%=6%></span>
- <span id="jul-data"><%=7%></span>
- <span id="aug-data"><%=3%></span>
- <span id="sep-data"><%=8%></span>
- <span id="oct-data"><%=9%></span>
- <span id="nov-data"><%=2%></span>
- <span id="dec-data"><%=2%></span>
-</div>
+
+
+
+
+
 
 
 
@@ -64,6 +77,12 @@
 
 
 <script>
+  const updateFormDiv = document.querySelector("#update-form-div");
+  const loadingButton = document.querySelector("#loading-button");
+  setTimeout(() => {
+    this.document.querySelector("#loading-button").style.display = "none";
+    this.document.querySelector("#update-form-div").style.display = "block";
+  }, 3000);
 // CHART Method - taking data points from pvgis
 // Draw chart
 // Save chart as base64
@@ -103,23 +122,16 @@ function done() {
 var options = {
   maintainAspectRatio: false,
     responsive:true,
-    // scales: {
-    //     yAxes: [{
-    //         ticks: {
-    //             beginAtZero: true
-    //         }
-    //     }]
-    // },
-  bezierCurve: false,
-  animation: {
-    onComplete: done
-  },
-  scales: {
-            xAxes: [{
-                barThickness: 24,  // number (pixels) or 'flex'
-                maxBarThickness: 24 // number (pixels)
-            }]
-        }
+    bezierCurve: false,
+    animation: {
+      onComplete: done
+    },
+    scales: {
+              xAxes: [{
+                  barThickness: 24,  // number (pixels) or 'flex'
+                  maxBarThickness: 24 // number (pixels)
+              }]
+          }
 };
 
 var chart = document.querySelector("canvas").getContext("2d");
@@ -131,6 +143,6 @@ var myLine = new Chart(document.getElementById("canvas").getContext("2d"), {
 });
 
 Chart.defaults.global.defaultFontSize = 20;
-chart.canvas.parentNode.style.height = '800px';
+// chart.canvas.parentNode.style.height = '800px';
 
 </script>

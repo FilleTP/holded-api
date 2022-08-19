@@ -38,13 +38,18 @@
         Country
         <%= f.input :shipping_country, :as => :text, label: false %>
       </label>
-      <%= f.file_field :image, multiple: true %>
     </div>
     <div class="pvgis-info">
       <%= f.simple_fields_for @proposal.pvgisdatas.new do |pvgidata| %>
       <% end %>
       <%= link_to_add_association '+', f, :pvgisdatas, html: { class: "add-pvgis"} %>
     </div>
+    <label class="btn btn-flat">
+      Upload Location Image
+      <span style="display:none;">
+        <%= f.file_field :image, required: true, multiple: true, name: 'picture' %>
+      </span>
+    </label>
   </div>
   <div class="proposal-create-button">
     <%= link_to 'Back', proposals_path, class: 'btn btn-back' %>
