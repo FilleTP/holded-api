@@ -1,5 +1,4 @@
 class Proposal < ApplicationRecord
-  include ActiveStorageSupport::SupportForBase64
   belongs_to :customer
   has_many :object_items
   has_many :pvgisdatas, dependent: :destroy
