@@ -1,5 +1,3 @@
-require 'mini_magick'
-
 class ProposalsController < ApplicationController
 
   def index
